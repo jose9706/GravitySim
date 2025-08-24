@@ -7,7 +7,7 @@
 simulator_core::simulator_core(const int window_width, const int window_height) :
 balls(0), window_width(window_width), window_height(window_height) {
   for (int i = 0; i < 10; ++i) {
-    ball_list.emplace_back(5*(i+1), 5*(i+1), 3 );
+    ball_list.emplace_back(9*(i+1), 9*(i+1), 9 );
   }
 }
 
@@ -31,6 +31,13 @@ void simulator_core::remove_balls(const unsigned long n) {
     balls -= n;
   } else {
     balls = 0;
+  }
+}
+
+void simulator_core::move_Balls() {
+  for (auto& ball: ball_list) {
+    ball.locX += 15;
+    ball.locY += 15;
   }
 }
 

@@ -17,6 +17,7 @@ public:
   void add_balls(unsigned long n);
   void remove_ball();
   void remove_balls(unsigned long n);
+  void move_Balls();
 private:
   unsigned long balls;
   std::vector<ball> ball_list;

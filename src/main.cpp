@@ -17,7 +17,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
   SDL_Window *window;
   SDL_Renderer *renderer;
   // 800x450 is 16:9
-  if (SDL_CreateWindowAndRenderer("Some simulation thing", 800, 450, 0, &window,
+  if (SDL_CreateWindowAndRenderer("Some simulation thing", 800, 450, SDL_WINDOW_OPENGL, &window,
                                   &renderer) == false) {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                              "Couldn't create window/renderer!", SDL_GetError(),
