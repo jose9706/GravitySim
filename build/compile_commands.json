@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/Users/josealbertobarrantes/CLionProjects/simTest/build",
-  "command": "/usr/bin/clang++ -DSDL_MAIN_USE_CALLBACKS -I/opt/homebrew/include -g -std=gnu++20 -arch arm64 -o CMakeFiles/simTest.dir/main.cpp.o -c /Users/josealbertobarrantes/CLionProjects/simTest/main.cpp",
-  "file": "/Users/josealbertobarrantes/CLionProjects/simTest/main.cpp",
-  "output": "CMakeFiles/simTest.dir/main.cpp.o"
-}
-]

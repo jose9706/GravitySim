@@ -1,3 +1,0 @@
-/Users/josealbertobarrantes/CLionProjects/simTest/build/CMakeFiles/simTest.dir
-/Users/josealbertobarrantes/CLionProjects/simTest/build/CMakeFiles/edit_cache.dir
-/Users/josealbertobarrantes/CLionProjects/simTest/build/CMakeFiles/rebuild_cache.dir
