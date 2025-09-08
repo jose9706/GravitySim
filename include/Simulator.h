@@ -1,21 +1,20 @@
 #pragma once
 #include "raylib.h"
-
+#include <memory>
 class Simulator
 {
 public:
-	Simulator();
-	~Simulator() = default;
 
-	void ConfigRaylibWindow();
+	static void ConfigRaylibWindow();
 
-	static void DrawFrame();
+	static void DrawFrame(std::shared_ptr<Camera3D> cam);
 
-	void Simulate();
+	static void Simulate();
+
+    static std::shared_ptr<Camera3D> GetCam(); 
 
 private:
-	Camera3D cam;
-	void InitCam();
-	static void Draw3dPass(Camera3D cam);
+	static void InitCam();
+	static void Draw3dPass(Camera3D* cam);
 };
 

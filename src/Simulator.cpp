@@ -1,25 +1,28 @@
 
 #include "Simulator.h"
+#include "raylib.h"
+#include <cstddef>
+#include <memory>
 
-Simulator::Simulator()
-{
-	InitCam();
+
+std::shared_ptr<Camera3D> Simulator::GetCam() {
+ 	auto cam = std::make_shared<Camera3D>();
+	cam->position = { 0.0f, 10.0f, 10.0f };
+	cam->target = { 0.0f, 0.0f, 0.0f };
+	cam->up = { 0.0f, 1.0f, 0.0f };
+	cam->fovy = 45.0f;
+	cam->projection = CAMERA_PERSPECTIVE;
+    return cam; 
 }
 
-void Simulator::InitCam()
+void Simulator::Draw3dPass(Camera3D* cam)
 {
-	cam = { 0 };
-	cam.position = { 0.0f, 10.0f, 10.0f };
-	cam.target = { 0.0f, 0.0f, 0.0f };
-	cam.up = { 0.0f, 1.0f, 0.0f };
-	cam.fovy = 45.0f;
-	cam.projection = CAMERA_PERSPECTIVE;
-}
-
-void Simulator::Draw3dPass(Camera3D cam)
-{
-	UpdateCamera(&cam, CAMERA_THIRD_PERSON);
-	BeginMode3D(cam);
+  	if (cam == nullptr)
+    {
+    	return;
+	}
+	UpdateCamera(cam, CAMERA_THIRD_PERSON);
+	BeginMode3D(*cam);
 
 	DrawCube({ -4.0f, 0.0f, 2.0f }, 2.0f, 5.0f, 2.0f, RED);
 	DrawCubeWires({ -4.0f, 0.0f, 2.0f }, 2.0f, 5.0f, 2.0f, GOLD);
@@ -45,20 +48,20 @@ void Simulator::Draw3dPass(Camera3D cam)
 
 void Simulator::ConfigRaylibWindow()
 {
-	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI | FLAG_MSAA_4X_HINT);
+	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
 	InitWindow(1280, 800, "Grav simulatro");
 	SetTargetFPS(60);
 	DisableCursor();
 }
 
-void Simulator::DrawFrame()
+void Simulator::DrawFrame(std::shared_ptr<Camera3D> cam)
 {
 	// drawing
 	BeginDrawing();
 
 	// Setup the back buffer for drawing (clear color and depth buffers)
 	ClearBackground(BLACK);
-	Draw3dPass();
+	Draw3dPass(cam.get());
 	// draw some text using the default font
 	DrawText("Hello Raylib", 200, 200, 20, WHITE);
 	// end the frame and get ready for the next one  (display frame, poll input, etc...)
@@ -67,9 +70,11 @@ void Simulator::DrawFrame()
 
 void Simulator::Simulate()
 {
+	auto cam = GetCam();
 	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
 	{
-		DrawFrame();
+		
+		DrawFrame(cam);
 	}
 
 	// destroy the window and cleanup the OpenGL context
