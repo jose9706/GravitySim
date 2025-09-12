@@ -12,11 +12,11 @@ by Jeffery Myers is marked with CC0 1.0. To view a copy of this license, visit h
 
 int main ()
 {
-	Simulator::ConfigRaylibWindow();
+    Simulator::ConfigRaylibWindow();
 
-	// Utility function from resource_dir.h to find the resources folder and set it as the current working directory so we can load from it
-	SearchAndSetResourceDir("resources");
-	
-	Simulator::Simulate();
-	return 0;
+    // Utility function from resource_dir.h to find the resources folder and set it as the current working directory so we can load from it
+    SearchAndSetResourceDir("resources");
+    
+    Simulator::Simulate();
+    return 0;
 }
