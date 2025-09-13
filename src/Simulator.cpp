@@ -2,7 +2,9 @@
 #include "Simulator.h"
 #include "raylib.h"
 #include <cstddef>
+#include <cstdio>
 #include <memory>
+#include <string>
 
 
 std::shared_ptr<Camera3D> Simulator::GetCam() {
@@ -58,16 +60,17 @@ void Simulator::ConfigRaylibWindow()
 
 void Simulator::DrawFrame(std::shared_ptr<Camera3D> cam)
 {
-    // drawing
     BeginDrawing();
-
-    // Setup the back buffer for drawing (clear color and depth buffers)
+    DrawFPS(100, 10);
     ClearBackground(BLACK);
-    Draw3dPass(cam.get());
-    // draw some text using the default font
-    DrawText("Hello Raylib", 200, 200, 20, WHITE);
-    // end the frame and get ready for the next one  (display frame, poll input, etc...)
+    DrawText(GetBallsOnScreenText(0).c_str(), 100, 30, 20, WHITE);
+    DrawText("Press M for menu", 100, 60, 15, WHITE);
     EndDrawing();
+}
+
+std::string Simulator::GetBallsOnScreenText(int numBalls)
+{
+    return "Balls on screen: " + std::to_string(numBalls);
 }
 
 void Simulator::Simulate()
@@ -76,7 +79,6 @@ void Simulator::Simulate()
     auto state = SimState();
     while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
     {
-        state.KeyBoardKeys();
         DrawFrame(cam);
     }
 
@@ -84,4 +86,12 @@ void Simulator::Simulate()
     CloseWindow();
 }
 
+void Simulator::HandleKeyBoard()
+{
+    auto state = SimState();
+    if (IsKeyPressed(CURSOR_DISABLING_KEY))
+    {
+        state.UpdateCursorState();  
+    }
+}
 

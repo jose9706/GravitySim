@@ -1,0 +1,153 @@
+Thanks for the clarification! Since your gravity simulator is **2D** and the focus is mainly on **object interactions and collisions** (rather than astrophysical accuracy), here's how that refines your components list:
+
+---
+
+## 🧠 Main Components for a 2D Gravity + Collision Simulator
+
+### 1. **Object/Body Representation**
+
+Each object needs:
+
+* **2D position** (e.g. `Vector2`)
+* **2D velocity**
+* **2D acceleration**
+* **Mass** (used for gravitational pull and collision resolution)
+* **Radius** (used for circle collision detection)
+* **Elasticity / restitution** (optional: controls how bouncy collisions are)
+* **Color / ID** (for visualization or debugging)
+
+---
+
+### 2. **Gravity System (Simplified)**
+
+You can treat all objects as exerting a **gravitational pull** on each other.
+
+* Use **Newton's Law of Universal Gravitation**:
+
+  $$
+  F = G \cdot \frac{m_1 \cdot m_2}{r^2}
+  $$
+* Calculate pairwise forces
+* Apply Newton’s Third Law (equal and opposite forces)
+* **Note**: For a simplified sim, you might skip gravitational attraction entirely unless you want orbital behavior
+
+---
+
+### 3. **Collision Detection (2D Circles)**
+
+Since objects are circular:
+
+* **Detect collisions** with:
+
+  $$
+  \text{distance between centers} < r_1 + r_2
+  $$
+* Keep in mind floating-point inaccuracies — apply a small epsilon tolerance
+
+---
+
+### 4. **Collision Resolution**
+
+When two objects collide:
+
+* Resolve **overlap** by adjusting positions
+* Apply **conservation of momentum**:
+
+  * Optionally elastic or inelastic collisions
+* Calculate post-collision velocities using:
+
+  * **Elastic collisions**: preserve kinetic energy
+  * **Inelastic collisions**: merge or lose energy
+
+---
+
+### 5. **Integration (Motion Update)**
+
+Update physics each frame:
+
+* Apply acceleration to velocity
+* Apply velocity to position
+* Reset acceleration after applying
+
+Choose integration method:
+
+* **Euler** (simplest)
+* **Semi-implicit Euler** (better stability)
+
+---
+
+### 6. **Spatial Partitioning (Optional for Many Objects)**
+
+If you have **many objects**, improve performance by avoiding O(n²) comparisons:
+
+* **Uniform grid** or **quadtree** to reduce collision checks
+* Especially useful for large-scale simulations
+
+---
+
+### 7. **Rendering System (with raylib)**
+
+* Draw each object as a **filled circle**
+* Color-code based on mass, speed, collision state, etc.
+* Optionally draw:
+
+  * Velocity vectors
+  * Force vectors
+  * Trajectories or trails
+
+---
+
+### 8. **User Interaction & Input**
+
+* Add new objects (click-to-place, drag-to-set velocity)
+* Pause/resume/reset
+* Adjust simulation speed
+* Toggle gravity on/off
+* Mouse hover to inspect object data
+
+---
+
+### 9. **Camera System (2D)**
+
+* Pan with arrow keys or mouse drag
+* Zoom with mouse wheel
+* Convert between world space and screen space
+
+---
+
+### 10. **Physics Tuning / Simulation Settings**
+
+* Adjustable constants:
+
+  * Gravitational constant `G`
+  * Collision restitution
+  * Mass scaling
+* Optional global forces (e.g., drag, friction, wind)
+
+---
+
+### 11. **Simulation Loop**
+
+Your main update loop will need to:
+
+1. **Handle input**
+2. **Update physics** (gravity + collision)
+3. **Resolve collisions**
+4. **Render all bodies**
+5. **Optionally display debug info / stats**
+
+---
+
+### ⚙️ Optional Advanced Features
+
+* **Object merging** (like in planetary formation sims)
+* **Object fragmentation** (break apart on impact)
+* **Custom gravity sources** (e.g. stationary attractors)
+* **Orbit prediction**
+* **Black holes or force fields**
+
+---
+
+If your focus is on *collisions*, then that’s your “core loop.” Gravity is a cool add-on that can make it more dynamic, but the **physics and collision resolution** will be your biggest challenges.
+
+Let me know if you want to break down how collision resolution works for two circles in 2D!

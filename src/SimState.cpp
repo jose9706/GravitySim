@@ -1,18 +1,19 @@
 #include "SimState.h"
+#include "raylib.h"
 
-void SimState::KeyBoardKeys()
+void SimState::UpdateCursorState()
 {
-    if (IsKeyDown(KEY_F1)) 
+    if (CursorActive)
     {
-        if (CursorActive)
-        {
-            DisableCursor();
-        }
-        else
-        {
-            EnableCursor();
-        }
-        
-        CursorActive = !CursorActive;
+        DisableCursor();
     }
+    else
+    {
+        EnableCursor();
+    }
+}
+
+size_t SimState::GetBallCount()
+{
+    return theBalls.size();
 }
