@@ -1,10 +1,6 @@
 
 #include "Simulator.h"
 #include "raylib.h"
-#include <cstddef>
-#include <cstdio>
-#include <memory>
-#include <string>
 
 
 std::shared_ptr<Camera3D> Simulator::GetCam() {
@@ -58,13 +54,17 @@ void Simulator::ConfigRaylibWindow()
     DisableCursor();
 }
 
-void Simulator::DrawFrame(std::shared_ptr<Camera3D> cam)
+void Simulator::DrawFrame(std::shared_ptr<Camera3D> cam, const SimState& state)
 {
     BeginDrawing();
-    DrawFPS(100, 10);
     ClearBackground(BLACK);
-    DrawText(GetBallsOnScreenText(0).c_str(), 100, 30, 20, WHITE);
-    DrawText("Press M for menu", 100, 60, 15, WHITE);
+    DrawFPS(80, 10);
+    DrawText(GetBallsOnScreenText(0).c_str(), 80, 30, 20, WHITE);
+    DrawText("Press M for menu", 80, 60, 15, WHITE);
+    if (state.GetMenuOpen())
+    {
+        ShowMenu();
+    } 
     EndDrawing();
 }
 
@@ -73,25 +73,35 @@ std::string Simulator::GetBallsOnScreenText(int numBalls)
     return "Balls on screen: " + std::to_string(numBalls);
 }
 
+void Simulator::ShowMenu()
+{
+    const std::string menuText = "Press X to close\nPress F1 to show mouse\nPress A to add a ball\n";
+    DrawText(menuText.c_str(), 100 - menuText.length(), 80, 20, LIGHTGRAY);
+}
+
 void Simulator::Simulate()
 {
     auto cam = GetCam();
     auto state = SimState();
     while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
     {
-        DrawFrame(cam);
+        HandleKeyBoard(state);
+        DrawFrame(cam, state);
     }
 
     // destroy the window and cleanup the OpenGL context
     CloseWindow();
 }
 
-void Simulator::HandleKeyBoard()
+void Simulator::HandleKeyBoard(SimState& simState)
 {
-    auto state = SimState();
     if (IsKeyPressed(CURSOR_DISABLING_KEY))
     {
-        state.UpdateCursorState();  
+        simState.UpdateCursorState();
+    }
+
+    if (IsKeyPressed(KEY_M))
+    {
+        simState.UpdateMenuState();
     }
 }
-

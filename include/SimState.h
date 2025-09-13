@@ -13,8 +13,13 @@ public:
     void SpawnBall();
     void RemoveBall();
     size_t GetBallCount();
-private:
+    bool GetMenuOpen() const;
+    void UpdateMenuState();
+
+  private:
     bool CursorActive = false;
+    bool MenuOpen = false;
+    Vector2 MousePosWhenHidden = {};
     Camera3D origCam;
     std::vector<Ball> theBalls; 
 };
